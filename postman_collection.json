@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "Payment Gateway API",
+    "description": "Reusable Payment Gateway endpoints for create, verify, refund and webhook flows.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provider\": \"razorpay\",\n  \"order_id\": \"order_001\",\n  \"amount\": \"499.00\",\n  \"currency\": \"INR\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/create/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "create", ""]
+        }
+      }
+    },
+    {
+      "name": "Verify Payment (Razorpay)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provider\": \"razorpay\",\n  \"payment_id\": \"pay_ABC123\",\n  \"order_id\": \"order_001\",\n  \"signature\": \"signature_xyz\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/verify/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "verify", ""]
+        }
+      }
+    },
+    {
+      "name": "Refund Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provider\": \"razorpay\",\n  \"order_id\": \"order_001\",\n  \"payment_id\": \"pay_ABC123\",\n  \"amount\": \"100.00\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/refund/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "refund", ""]
+        }
+      }
+    },
+    {
+      "name": "Razorpay Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Razorpay-Signature", "value": "<webhook_signature>" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"payment.captured\",\n  \"payload\": {\n    \"payment\": {\n      \"entity\": {\n        \"id\": \"pay_ABC123\",\n        \"order_id\": \"order_001\"\n      }\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/webhook/razorpay/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "webhook", "razorpay", ""]
+        }
+      }
+    }
+  ]
+}
