@@ -3,6 +3,7 @@ import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from .models import PaymentRecord
 from .serializers import (
@@ -55,7 +56,8 @@ class CreatePaymentAPIView(APIView):
             return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as exc:
             logger.exception("Unexpected error in create payment")
-            return Response({"detail": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            detail = str(exc) if settings.DEBUG else "Internal server error"
+            return Response({"detail": detail}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class VerifyPaymentAPIView(APIView):
@@ -93,7 +95,8 @@ class VerifyPaymentAPIView(APIView):
             return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as exc:
             logger.exception("Unexpected error in verify payment")
-            return Response({"detail": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            detail = str(exc) if settings.DEBUG else "Internal server error"
+            return Response({"detail": detail}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class RefundPaymentAPIView(APIView):
@@ -129,4 +132,5 @@ class RefundPaymentAPIView(APIView):
             return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as exc:
             logger.exception("Unexpected error in refund payment")
-            return Response({"detail": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            detail = str(exc) if settings.DEBUG else "Internal server error"
+            return Response({"detail": detail}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

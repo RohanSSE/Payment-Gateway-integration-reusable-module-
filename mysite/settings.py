@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "payment_gateway",
     "rest_framework",
+
 ]
 
 MIDDLEWARE = [
@@ -76,8 +77,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'paymentgateway',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -117,3 +122,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+# Payment Gateway Configuration
+PAYMENT_GATEWAY_DEFAULT_PROVIDER = "razorpay"
+
+PAYMENT_GATEWAY_PROVIDERS = {
+    "razorpay": {
+        "KEY_ID": "rzp_test_xxxxxxxx",
+        "KEY_SECRET": "your_secret_here",
+    },
+    "stripe": {
+        "SECRET_KEY": "sk_test_xxxxxxxx",
+    },
+}
